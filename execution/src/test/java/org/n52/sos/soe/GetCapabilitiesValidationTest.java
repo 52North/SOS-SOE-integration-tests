@@ -23,6 +23,8 @@ import java.io.IOException;
 import javax.xml.namespace.QName;
 
 import net.opengis.sos.x20.CapabilitiesDocument;
+import net.opengis.sos.x20.ObservationOfferingDocument;
+import net.opengis.swes.x20.AbstractContentsType.Offering;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.xmlbeans.XmlError;
@@ -62,7 +64,17 @@ public class GetCapabilitiesValidationTest extends AbstractValidationTest {
 		
 		validateXml(xo);
 
+		CapabilitiesDocument caps = (CapabilitiesDocument) xo;
+		
+		validateOfferings(caps.getCapabilities().getContents().getContents().getOfferingArray());
 	}
 
-	
+	private void validateOfferings(Offering[] offeringArray) throws XmlException {
+		for (Offering offering : offeringArray) {
+			ObservationOfferingDocument obsOff = ObservationOfferingDocument.Factory.parse(offering.xmlText());
+			
+			validateXml(obsOff);
+		}
+	}
+
 }
