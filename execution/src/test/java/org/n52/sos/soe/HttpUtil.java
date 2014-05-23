@@ -48,6 +48,8 @@ public class HttpUtil {
 	public static XmlObject executeGet(String target) throws ClientProtocolException, IOException, IllegalStateException, XmlException {
 		CloseableHttpClient client = HttpClientBuilder.create().build();
 		
+		logger.info("HTTP GET: "+ target);
+		
 		long start = System.currentTimeMillis();
 		HttpResponse resp = client.execute(new HttpGet(target));
 		logger.info("Request latency: "+ (System.currentTimeMillis()-start));
