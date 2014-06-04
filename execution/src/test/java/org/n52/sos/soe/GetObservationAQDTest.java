@@ -20,21 +20,15 @@ package org.n52.sos.soe;
 
 import java.io.IOException;
 
-import javax.xml.namespace.QName;
-
 import net.opengis.gml.x32.FeatureCollectionDocument;
 import net.opengis.gml.x32.FeaturePropertyType;
 import net.opengis.om.x20.OMObservationDocument;
 
 import org.apache.http.client.ClientProtocolException;
-import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlValidationError;
 import org.junit.Assert;
 import org.junit.Test;
-import org.n52.oxf.xmlbeans.parser.LaxValidationCase;
-import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,9 +37,6 @@ import eu.europa.ec.aqd.aqd.x03.AQDReportingHeaderDocument;
 public class GetObservationAQDTest extends GetObservationTest {
 	
 	private static final Logger logger = LoggerFactory.getLogger(GetObservationAQDTest.class);
-	
-	protected static final QName FEATURE_QN = new QName(
-			"http://www.opengis.net/gml/3.2", "AbstractFeature");
 	
 	@Test
 	@Override
@@ -56,19 +47,7 @@ public class GetObservationAQDTest extends GetObservationTest {
 		
 		Assert.assertTrue("Not a FeatureCollection: "+xo.getClass(), xo instanceof FeatureCollectionDocument);
 		
-		XMLBeansParser.registerLaxValidationCase(new LaxValidationCase() {
-			
-			public boolean shouldPass(XmlValidationError xve) {
-				return xve.getExpectedQNames() != null && xve.getExpectedQNames().contains(FEATURE_QN);
-			}
-
-			public boolean shouldPass(XmlError validationError) {
-				if (!(validationError instanceof XmlValidationError)) return false;
-				
-				XmlValidationError xve = (XmlValidationError) validationError;
-				return shouldPass(xve);
-			}
-		});
+		registerLaxValidationForAbstractFeatures();
 		
 		validateXml(xo);
 		
