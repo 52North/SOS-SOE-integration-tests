@@ -51,7 +51,7 @@ public class GetFeatureOfInterestTest extends AbstractValidationTest {
 	List<String> featureIds = Arrays
 			.asList(new String[] {
 					"http%3A%2F%2Fcdr.eionet.europa.eu%2Fdk%2Feu%2Faqd%2Fd%2Fenvurqr0q%2FREP_D-DK_DCE_20131219_D-001.xml%23SPO_F-DK0021A_00001_110_110",
-					"http%3A%2F%2Fcdr.eionet.europa.eu%2Fpl%2Feu%2Faqd%2Fd%2Fenvuvt6ea%2FPL_REPORT_D_FOR_2014v2.xml%23SPO_S_PL0031A_1_001" });
+					"http%3A%2F%2Fcdr.eionet.europa.eu%2Fhu%2Feu%2Faqd%2Fd%2Fenvut_vxq%2FREP_D-HU_OMSZ_20140122_D-001.xml%23SPO_F-HU0002A_00001_500_500" });
 
 	@Test
 	public void validateGetFOI() throws ClientProtocolException,
