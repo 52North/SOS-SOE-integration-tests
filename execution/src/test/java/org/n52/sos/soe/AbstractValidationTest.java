@@ -38,15 +38,22 @@ public abstract class AbstractValidationTest {
 	protected static final QName FEATURE_QN = new QName(
 			"http://www.opengis.net/gml/3.2", "AbstractFeature");
 	
-	protected void validateXml(XmlObject xo) {
+	protected void validateXml(XmlObject xo, boolean failOnInvalid) {
 		Collection<XmlError> errors = XMLBeansParser.validate(xo);
 		
 		if (!errors.isEmpty()) {
 			for (XmlError xmlError : errors) {
 				logger.warn(xmlError.toString());
 			}
-			Assert.fail("Response is not valid!");
+			
+			if (failOnInvalid) {
+				Assert.fail("Response is not valid!");
+			}
 		}
+	}
+	
+	protected void validateXml(XmlObject xo) {
+		validateXml(xo, true);
 	}
 	
 	protected void registerLaxValidationForAbstractFeatures() {
