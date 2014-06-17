@@ -47,11 +47,18 @@ public class GetObservationTest extends AbstractValidationTest {
 		
 		GetObservationResponseDocument obs = (GetObservationResponseDocument) xo;
 		
+		Assert.assertNotNull("Got no ObservationData!", obs.getGetObservationResponse().getObservationDataArray(0));
+		Assert.assertNotNull("Got no Result!", obs.getGetObservationResponse().getObservationDataArray(0).getOMObservation().getResult());
+		
 		DataArrayDocument dad = DataArrayDocument.Factory.parse(obs.getGetObservationResponse().getObservationDataArray()[0].getOMObservation().getResult().xmlText());
 		
 		logger.info("Got a DataArray result: "+ dad.getDataArray1().getDomNode().getLocalName());
 		
 		validateXml(dad);
+		
+		Assert.assertTrue("No values!", dad.getDataArray1().getElementCount().getCount().getValue().intValue() > 0);
+		
+		logger.info("Value count: "+dad.getDataArray1().getElementCount().getCount().getValue().intValue());
 	}
 
 }
