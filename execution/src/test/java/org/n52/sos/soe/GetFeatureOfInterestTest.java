@@ -22,19 +22,13 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.xml.namespace.QName;
-
 import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
 
 import org.apache.http.client.ClientProtocolException;
-import org.apache.xmlbeans.XmlError;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
-import org.apache.xmlbeans.XmlValidationError;
 import org.junit.Assert;
 import org.junit.Test;
-import org.n52.oxf.xmlbeans.parser.LaxValidationCase;
-import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,17 +39,16 @@ public class GetFeatureOfInterestTest extends AbstractValidationTest {
 	private static final Logger logger = LoggerFactory
 			.getLogger(GetFeatureOfInterestTest.class);
 
-	protected static final QName FEATURE_QN = new QName(
-			"http://www.opengis.net/gml/3.2", "AbstractFeature");
-
 	List<String> featureIds = Arrays
 			.asList(new String[] {
-					"http%3A%2F%2Fcdr.eionet.europa.eu%2Fdk%2Feu%2Faqd%2Fd%2Fenvurqr0q%2FREP_D-DK_DCE_20131219_D-001.xml%23SPO_F-DK0021A_00001_110_110",
-					"http%3A%2F%2Fcdr.eionet.europa.eu%2Fpl%2Feu%2Faqd%2Fd%2Fenvuvt6ea%2FPL_REPORT_D_FOR_2014v2.xml%23SPO_S_PL0031A_1_001" });
+					"http%3A%2F%2Fcdr.eionet.europa.eu%2Fhu%2Feu%2Faqd%2Fd%2Fenvut_vxq%2FREP_D-HU_OMSZ_20140122_D-001.xml%23SPO_F-HU0002A_00001_500_500"});
 
 	@Test
 	public void validateGetFOI() throws ClientProtocolException,
 			IllegalStateException, IOException, XmlException {
+		
+		registerLaxValidationForAbstractFeatures();
+		
 		for (String fid : featureIds) {
 			String target = String.format("%s%s",
 					HttpUtil.resolveServiceURL(),
@@ -66,22 +59,6 @@ public class GetFeatureOfInterestTest extends AbstractValidationTest {
 			Assert.assertTrue(
 					"Not a GetFeatureOfInterest Reponse: " + xo.getClass(),
 					xo instanceof GetFeatureOfInterestResponseDocument);
-
-			XMLBeansParser.registerLaxValidationCase(new LaxValidationCase() {
-
-				public boolean shouldPass(XmlValidationError xve) {
-					return xve.getExpectedQNames() != null
-							&& xve.getExpectedQNames().contains(FEATURE_QN);
-				}
-
-				public boolean shouldPass(XmlError validationError) {
-					if (!(validationError instanceof XmlValidationError))
-						return false;
-
-					XmlValidationError xve = (XmlValidationError) validationError;
-					return shouldPass(xve);
-				}
-			});
 
 			validateXml(xo);
 

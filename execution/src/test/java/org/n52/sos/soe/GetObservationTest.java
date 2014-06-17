@@ -20,7 +20,9 @@ package org.n52.sos.soe;
 
 import java.io.IOException;
 
+import net.opengis.om.x20.OMObservationType;
 import net.opengis.sos.x20.GetObservationResponseDocument;
+import net.opengis.sos.x20.GetObservationResponseType.ObservationData;
 import net.opengis.swe.x20.DataArrayDocument;
 
 import org.apache.http.client.ClientProtocolException;
@@ -50,7 +52,17 @@ public class GetObservationTest extends AbstractValidationTest {
 		Assert.assertNotNull("Got no ObservationData!", obs.getGetObservationResponse().getObservationDataArray(0));
 		Assert.assertNotNull("Got no Result!", obs.getGetObservationResponse().getObservationDataArray(0).getOMObservation().getResult());
 		
-		DataArrayDocument dad = DataArrayDocument.Factory.parse(obs.getGetObservationResponse().getObservationDataArray()[0].getOMObservation().getResult().xmlText());
+		for (ObservationData od : obs.getGetObservationResponse().getObservationDataArray()) {
+			validateContents(od.getOMObservation());
+		}
+		
+		
+	}
+	
+	
+	protected void validateContents(OMObservationType omObservationType)
+			throws XmlException {
+		DataArrayDocument dad = DataArrayDocument.Factory.parse(omObservationType.getResult().xmlText());
 		
 		logger.info("Got a DataArray result: "+ dad.getDataArray1().getDomNode().getLocalName());
 		
