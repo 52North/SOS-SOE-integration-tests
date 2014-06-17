@@ -65,11 +65,11 @@ public class HarvestFeaturesWithObservations extends AbstractValidationTest {
 		String url = HttpUtil.resolveServiceURL();
 
 		List<String> networks = findNetworks();
-		boolean doing = false;
+		boolean doing = true;
 		for (String n : networks) {
-			if ("NET.DE_UB".equals(n)) {
-				doing = true;
-			}
+//			if ("NET.DE_UB".equals(n)) {
+//				doing = true;
+//			}
 			
 			if (!doing) {
 				continue;
@@ -164,8 +164,10 @@ public class HarvestFeaturesWithObservations extends AbstractValidationTest {
 
 		XmlObject xo = HttpUtil
 				.executeGet(url.concat(String
-						.format("GetObservation?service=SOS&version=2.0.0&request=GetObservation&offering=&observedProperty=&procedure=&featureOfInterest=%s&namespaces=&spatialFilter=&temporalFilter=&aggregationType=&responseFormat=&f=xml",
-								n)));
+						.format("GetObservation?service=SOS&version=2.0.0&request=GetObservation&offering=&observedProperty=&procedure=&featureOfInterest=%s&namespaces=&spatialFilter=&temporalFilter=om:phenomenonTime,%s/%s&aggregationType=&responseFormat=&f=xml",
+								n,
+								"2014-02-03T14:00:00Z",
+								"2014-03-03T14:00:00Z")));
 
 		int count = checkForObservations(xo);
 
