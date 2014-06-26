@@ -69,7 +69,7 @@ public class GetFeatureOfInterestContentTest extends AbstractValidationTest {
 	
 	@Test
 	public void instanceShouldReturnOneFeature() throws ClientProtocolException, IOException, XmlException {
-		String subUrl = "GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=http%3A%2F%2Fcdr.eionet.europa.eu%2Fhu%2Feu%2Faqd%2Fd%2Fenvut_vxq%2FREP_D-HU_OMSZ_20140122_D-001.xml%23SPO_F-HU0002A_00001_500_500&observedProperty=&procedure=&namespaces=&spatialFilter=&f=xml";
+		String subUrl = "GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=http%3A%2F%2Fcdr.eionet.europa.eu%2Fhu%2Feu%2Faqd%2Fd%2Fenvut_vxq%2FREP_D-HU_OMSZ_20140122_D-001.xml%23SPO_F-HU0002R_00001_500_500&observedProperty=&procedure=&namespaces=&spatialFilter=&f=xml";
 		
 		GetFeatureOfInterestResponseDocument getFoi = executeAndParseRequest(subUrl);
 		
