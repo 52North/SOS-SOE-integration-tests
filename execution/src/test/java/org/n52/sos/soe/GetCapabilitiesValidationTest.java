@@ -35,9 +35,12 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.n52.oxf.xmlbeans.parser.LaxValidationCase;
 import org.n52.oxf.xmlbeans.parser.XMLBeansParser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GetCapabilitiesValidationTest extends AbstractValidationTest {
 
+	private static final Logger logger = LoggerFactory.getLogger(GetCapabilitiesValidationTest.class);
 	private static final Object FEATURE_QN = new QName("http://www.opengis.net/swes/2.0", "AbstractOffering");
 	
 	@Test
@@ -47,6 +50,12 @@ public class GetCapabilitiesValidationTest extends AbstractValidationTest {
 		XmlObject xo = HttpUtil.executeGet(url.concat("GetCapabilities?service=SOS&request=GetCapabilities&f=xml"));
 		
 		Assert.assertTrue("Not a Capabilities doc:"+ xo.getClass(), xo instanceof CapabilitiesDocument);
+		
+		/*
+		 * log the caps; provides git commit hash version and other valuable
+		 * info
+		 */
+		logger.info(xo.toString());
 		
 		XMLBeansParser.registerLaxValidationCase(new LaxValidationCase() {
 			
