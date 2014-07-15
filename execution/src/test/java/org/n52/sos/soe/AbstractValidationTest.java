@@ -38,7 +38,7 @@ public abstract class AbstractValidationTest {
 	protected static final QName FEATURE_QN = new QName(
 			"http://www.opengis.net/gml/3.2", "AbstractFeature");
 	
-	protected void validateXml(XmlObject xo, boolean failOnInvalid) {
+	protected static void validateXml(XmlObject xo, boolean failOnInvalid) {
 		Collection<XmlError> errors = XMLBeansParser.validate(xo);
 		
 		if (!errors.isEmpty()) {
@@ -52,7 +52,7 @@ public abstract class AbstractValidationTest {
 		}
 	}
 	
-	protected void validateXml(XmlObject xo) {
+	protected static void validateXml(XmlObject xo) {
 		validateXml(xo, true);
 	}
 	

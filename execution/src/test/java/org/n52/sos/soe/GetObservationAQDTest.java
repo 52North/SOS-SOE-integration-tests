@@ -65,7 +65,7 @@ public class GetObservationAQDTest extends GetObservationTest {
 				
 				validateXml(om);
 				
-				validateContents(om.getOMObservation());
+				validateContentsAndReturnValueCount(om.getOMObservation());
 			}
 		}
 	}

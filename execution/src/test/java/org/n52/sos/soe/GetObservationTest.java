@@ -53,14 +53,14 @@ public class GetObservationTest extends AbstractValidationTest {
 		Assert.assertNotNull("Got no Result!", obs.getGetObservationResponse().getObservationDataArray(0).getOMObservation().getResult());
 		
 		for (ObservationData od : obs.getGetObservationResponse().getObservationDataArray()) {
-			validateContents(od.getOMObservation());
+			validateContentsAndReturnValueCount(od.getOMObservation());
 		}
 		
 		
 	}
 	
 	
-	protected void validateContents(OMObservationType omObservationType)
+	protected static int validateContentsAndReturnValueCount(OMObservationType omObservationType)
 			throws XmlException {
 		DataArrayDocument dad = DataArrayDocument.Factory.parse(omObservationType.getResult().xmlText());
 		
@@ -70,7 +70,10 @@ public class GetObservationTest extends AbstractValidationTest {
 		
 		Assert.assertTrue("No values!", dad.getDataArray1().getElementCount().getCount().getValue().intValue() > 0);
 		
-		logger.info("Value count: "+dad.getDataArray1().getElementCount().getCount().getValue().intValue());
+		int count = dad.getDataArray1().getElementCount().getCount().getValue().intValue();
+		logger.info("Value count: "+count);
+		
+		return count;
 	}
 
 }
