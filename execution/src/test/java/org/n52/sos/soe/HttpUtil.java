@@ -27,6 +27,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlObject;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +66,23 @@ public class HttpUtil {
 		}
 		
 		return xo;
+	}
+
+	public static JsonNode executeHttpGet(String target)
+			throws IOException, ClientProtocolException {
+		CloseableHttpClient client = HttpClientBuilder.create().build();
+		
+		logger.info("HTTP GET: "+ target);
+		
+		long start = System.currentTimeMillis();
+		HttpResponse resp = client.execute(new HttpGet(target));
+		logger.info("Request latency: "+ (System.currentTimeMillis()-start));
+		
+		ObjectMapper mapper = new ObjectMapper(); 
+		JsonNode json = mapper.readTree(resp.getEntity().getContent());
+		
+		client.close();
+		return json;
 	}
 
 }
