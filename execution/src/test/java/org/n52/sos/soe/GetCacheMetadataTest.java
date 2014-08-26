@@ -23,6 +23,7 @@ import java.io.IOException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.xmlbeans.XmlException;
 import org.codehaus.jackson.JsonNode;
+import org.joda.time.DateTime;
 import org.junit.Assert;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -42,7 +43,20 @@ public class GetCacheMetadataTest extends AbstractValidationTest {
 		
 		logger.info(json.toString());
 		
+		JsonNode pum = json.get("PropertyUnitMappingCache");
+		Assert.assertTrue("PropertyUnitMappingCache too old", validateLatestExecution(pum));
+		
+		JsonNode oo = json.get("ObservationOfferingCache");
+		Assert.assertTrue("ObservationOfferingCache too old", validateLatestExecution(oo));
+		
 		Assert.assertTrue("coult not find updateCacheOnStartup!", json.has("updateCacheOnStartup"));
+	}
+
+	private boolean validateLatestExecution(JsonNode pum) {
+		DateTime lastUpdated = new DateTime(pum.get("lastUpdated").getTextValue());
+		DateTime yesterdayPlusOneHour= new DateTime().minusHours(23);
+
+		return lastUpdated.isAfter(yesterdayPlusOneHour);
 	}
 
 }
