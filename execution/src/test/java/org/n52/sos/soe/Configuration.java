@@ -19,6 +19,8 @@
 package org.n52.sos.soe;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -34,7 +36,7 @@ public final class Configuration {
 	private Configuration() {
 		this.properties = new Properties();
 		try {
-			this.properties.load(getClass().getResourceAsStream("/sos-soe.properties"));
+			this.properties.load(getClass().getResourceAsStream("/sos-soe_EEA.properties"));
 		} catch (IOException e) {
 			logger.warn(e.getMessage(), e);
 		}
@@ -50,4 +52,23 @@ public final class Configuration {
 	public String getSOEServiceURL() {
 		return this.properties.getProperty("SOE_URL");
 	}
+	
+	public String getObservedProperty() {
+		return this.properties.getProperty("observedProperty");
+	}
+	
+	public String getProcedure() {
+		return this.properties.getProperty("procedure");
+	}
+
+	public List<String> getFeatures() {
+		List<String> result = new ArrayList<>();
+		result.add(this.properties.getProperty("features"));
+		return result;
+	}
+
+	public String getNetwork() {
+		return this.properties.getProperty("network");
+	}
+	
 }

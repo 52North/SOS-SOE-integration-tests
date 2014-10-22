@@ -39,7 +39,9 @@ public class GetObservationTest extends AbstractValidationTest {
 	
 	@Test
 	public void validateGetObservation() throws ClientProtocolException, IllegalStateException, IOException, XmlException {
-		String url = HttpUtil.resolveServiceURL().concat("GetObservation?service=SOS&version=2.0.0&request=GetObservation&offering=&observedProperty=http%3A%2F%2Fdd.eionet.europa.eu%2Fvocabulary%2Faq%2Fpollutant%2F1&procedure=http%3A%2F%2Fcdr.eionet.europa.eu%2Fpl%2Feu%2Faqd%2Fd%2Fenvuvt6ea%2FPL_REPORT_D_FOR_2014v2.xml%23SPO_P_PL0518A_1_001&featureOfInterest=&namespaces=&spatialFilter=&temporalFilter=om:phenomenonTime,2013-12-03T14:00:00Z/2014-03-04T14:00:00Z&aggregationType=&responseFormat=&f=xml");
+		Configuration config = Configuration.instance();
+		String url = HttpUtil.resolveServiceURL().concat(String.format("GetObservation?service=SOS&version=2.0.0&request=GetObservation&observedProperty=%s&procedure=%s&f=xml",
+				config.getObservedProperty(), config.getProcedure()));
 		
 		XmlObject xo = HttpUtil.executeGet(url);
 		
@@ -49,7 +51,7 @@ public class GetObservationTest extends AbstractValidationTest {
 		
 		GetObservationResponseDocument obs = (GetObservationResponseDocument) xo;
 		
-		Assert.assertNotNull("Got no ObservationData!", obs.getGetObservationResponse().getObservationDataArray(0));
+		Assert.assertTrue("Got no ObservationData!", obs.getGetObservationResponse().getObservationDataArray().length > 0);
 		Assert.assertNotNull("Got no Result!", obs.getGetObservationResponse().getObservationDataArray(0).getOMObservation().getResult());
 		
 		for (ObservationData od : obs.getGetObservationResponse().getObservationDataArray()) {

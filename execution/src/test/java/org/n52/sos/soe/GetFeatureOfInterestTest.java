@@ -19,7 +19,7 @@
 package org.n52.sos.soe;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import net.opengis.sos.x20.GetFeatureOfInterestResponseDocument;
@@ -39,13 +39,13 @@ public class GetFeatureOfInterestTest extends AbstractValidationTest {
 	private static final Logger logger = LoggerFactory
 			.getLogger(GetFeatureOfInterestTest.class);
 
-	List<String> featureIds = Arrays
-			.asList(new String[] {
-					"http%3A%2F%2Fcdr.eionet.europa.eu%2Fhu%2Feu%2Faqd%2Fd%2Fenvut_vxq%2FREP_D-HU_OMSZ_20140122_D-001.xml%23SPO_F-HU0002R_00001_500_500"});
+	List<String> featureIds = new ArrayList<>();
 
 	@Test
 	public void validateGetFOI() throws ClientProtocolException,
 			IllegalStateException, IOException, XmlException {
+		Configuration config = Configuration.instance();
+		featureIds.addAll(config.getFeatures());
 		
 		registerLaxValidationForAbstractFeatures();
 		

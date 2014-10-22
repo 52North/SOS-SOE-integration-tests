@@ -31,11 +31,13 @@ import org.junit.Test;
 
 public class GetFirstGetLatestObservationTest extends AbstractValidationTest {
 	
-	private static final String BASE_REQUEST = "GetObservation?service=SOS&version=2.0.0&request=GetObservation&observedProperty=http%3A%2F%2Fdd.eionet.europa.eu%2Fvocabulary%2Faq%2Fpollutant%2F1&procedure=http%3A%2F%2Fcdr.eionet.europa.eu%2Fpl%2Feu%2Faqd%2Fd%2Fenvuvt6ea%2FPL_REPORT_D_FOR_2014v2.xml%23SPO_P_PL0518A_1_001&f=xml&temporalFilter=om:phenomenonTime,";
+	private static final String BASE_REQUEST = "GetObservation?service=SOS&version=2.0.0&request=GetObservation&observedProperty=%s&procedure=%s&f=xml&temporalFilter=om:phenomenonTime,%s";
 	
 	@Test
 	public void testGetFirst() throws ClientProtocolException, IllegalStateException, IOException, XmlException {
-		String url = HttpUtil.resolveServiceURL().concat(BASE_REQUEST.concat("first"));
+		Configuration config = Configuration.instance();
+		String url = HttpUtil.resolveServiceURL().concat(String.format(BASE_REQUEST,
+				config.getObservedProperty(), config.getProcedure(), "first"));
 		
 		XmlObject xo = HttpUtil.executeGet(url);
 		
@@ -57,7 +59,9 @@ public class GetFirstGetLatestObservationTest extends AbstractValidationTest {
 	
 	@Test
 	public void testGetLatest() throws ClientProtocolException, IllegalStateException, IOException, XmlException {
-		String url = HttpUtil.resolveServiceURL().concat(BASE_REQUEST.concat("latest"));
+		Configuration config = Configuration.instance();
+		String url = HttpUtil.resolveServiceURL().concat(String.format(BASE_REQUEST,
+				config.getObservedProperty(), config.getProcedure(), "latest"));
 		
 		XmlObject xo = HttpUtil.executeGet(url);
 		

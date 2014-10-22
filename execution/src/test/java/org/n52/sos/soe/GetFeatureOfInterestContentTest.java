@@ -61,7 +61,8 @@ public class GetFeatureOfInterestContentTest extends AbstractValidationTest {
 	
 	@Test
 	public void instanceShouldReturnFeaturesForNetwork() throws ClientProtocolException, IllegalStateException, IOException, XmlException {
-		String subUrl = "GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=&observedProperty=&procedure=NET-HU004A&namespaces=&spatialFilter=&f=xml";
+		Configuration config = Configuration.instance();
+		String subUrl = String.format("GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=&observedProperty=&procedure=%s&namespaces=&spatialFilter=&f=xml", config.getNetwork());
 		GetFeatureOfInterestResponseDocument getFoi = executeAndParseRequest(subUrl);
 		
 		Assert.assertTrue("Response did not contain multiple features!", getFoi.getGetFeatureOfInterestResponse().getFeatureMemberArray().length > 1);
@@ -69,7 +70,8 @@ public class GetFeatureOfInterestContentTest extends AbstractValidationTest {
 	
 	@Test
 	public void instanceShouldReturnOneFeature() throws ClientProtocolException, IOException, XmlException {
-		String subUrl = "GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=http%3A%2F%2Fcdr.eionet.europa.eu%2Fhu%2Feu%2Faqd%2Fd%2Fenvut_vxq%2FREP_D-HU_OMSZ_20140122_D-001.xml%23SPO_F-HU0002R_00001_500_500&observedProperty=&procedure=&namespaces=&spatialFilter=&f=xml";
+		Configuration config = Configuration.instance();
+		String subUrl = String.format("GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=%s&observedProperty=&procedure=&namespaces=&spatialFilter=&f=xml", config.getFeatures().get(0));
 		
 		GetFeatureOfInterestResponseDocument getFoi = executeAndParseRequest(subUrl);
 		
