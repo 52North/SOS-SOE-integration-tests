@@ -21,6 +21,7 @@ package org.n52.sos.soe;
 import java.io.IOException;
 
 import net.opengis.sensorML.x101.SensorMLDocument;
+import net.opengis.sensorML.x101.SystemDocument;
 import net.opengis.swes.x20.DescribeSensorResponseDocument;
 import net.opengis.swes.x20.SensorDescriptionType;
 
@@ -57,6 +58,13 @@ public class DescribeSensorTest extends AbstractValidationTest {
 		logger.info("description is a SensorML 1.0.1 document: "+sml.getSensorML().getDomNode().getLocalName());
 		
 		validateXml(sml);
+		
+		Assert.assertTrue("No member System", sml.getSensorML().getMemberArray().length > 0);
+		
+		SystemDocument system = SystemDocument.Factory.parse(sml.getSensorML().getMemberArray(0).xmlText());
+		validateXml(system);
+		
+		Assert.assertTrue("No components for this System!", system.getSystem().getComponents().getComponentList().getComponentArray().length > 0);
 	}
 
 }
