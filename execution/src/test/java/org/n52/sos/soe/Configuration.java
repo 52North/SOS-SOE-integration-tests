@@ -36,7 +36,7 @@ public final class Configuration {
 	private Configuration() {
 		this.properties = new Properties();
 		try {
-			this.properties.load(getClass().getResourceAsStream("/sos-soe_EEA.properties"));
+			this.properties.load(getClass().getResourceAsStream("/sos-soe.properties"));
 		} catch (IOException e) {
 			logger.warn(e.getMessage(), e);
 		}
