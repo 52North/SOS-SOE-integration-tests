@@ -88,7 +88,79 @@
 								<phase>process-test-classes</phase>
 								<configuration>
 									<target>
-										<move file="${project.build.directory}/test-classes/sos-soe_EEA.properties" tofile="${project.build.directory}/test-classes/sos-soe.properties" />
+										<move file="${project.build.directory}/test-classes/sos-soe_EEA-E2a.properties" tofile="${project.build.directory}/test-classes/sos-soe.properties" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+	      		</plugins>
+	      	</build>
+    	</profile>
+		<profile>
+	      	<id>EEA-E</id>
+	      	<build>
+	      		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>rename-build-specific-config-file</id>
+								<phase>process-test-classes</phase>
+								<configuration>
+									<target>
+										<move file="${project.build.directory}/test-classes/sos-soe_EEA-E.properties" tofile="${project.build.directory}/test-classes/sos-soe.properties" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+	      		</plugins>
+	      	</build>
+    	</profile>
+		<profile>
+	      	<id>EEA-E2a_geotool</id>
+	      	<build>
+	      		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>rename-build-specific-config-file</id>
+								<phase>process-test-classes</phase>
+								<configuration>
+									<target>
+										<move file="${project.build.directory}/test-classes/sos-soe_EEA-E2a_geotool.properties" tofile="${project.build.directory}/test-classes/sos-soe.properties" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+	      		</plugins>
+	      	</build>
+    	</profile>
+		<profile>
+	      	<id>EEA-E_geotool</id>
+	      	<build>
+	      		<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>rename-build-specific-config-file</id>
+								<phase>process-test-classes</phase>
+								<configuration>
+									<target>
+										<move file="${project.build.directory}/test-classes/sos-soe_EEA-E_geotool.properties" tofile="${project.build.directory}/test-classes/sos-soe.properties" />
 									</target>
 								</configuration>
 								<goals>
