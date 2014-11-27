@@ -57,7 +57,7 @@ public class GetCacheMetadataTest extends AbstractValidationTest {
 		
 		DateTime yesterdayPlusOneHour;
 		if (url.contains("ags.dev.52north")) {
-			yesterdayPlusOneHour= new DateTime().minusMinutes(25);
+			yesterdayPlusOneHour= new DateTime().minusHours(1).minusMinutes(25);
 		}
 		else {
 			yesterdayPlusOneHour= new DateTime().minusHours(23);
