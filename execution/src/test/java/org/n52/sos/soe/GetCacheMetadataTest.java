@@ -44,17 +44,24 @@ public class GetCacheMetadataTest extends AbstractValidationTest {
 		logger.info(json.toString());
 		
 		JsonNode pum = json.get("PropertyUnitMappingCache");
-		Assert.assertTrue("PropertyUnitMappingCache too old", validateLatestExecution(pum));
+		Assert.assertTrue("PropertyUnitMappingCache too old", validateLatestExecution(pum, url));
 		
 		JsonNode oo = json.get("ObservationOfferingCache");
-		Assert.assertTrue("ObservationOfferingCache too old", validateLatestExecution(oo));
+		Assert.assertTrue("ObservationOfferingCache too old", validateLatestExecution(oo, url));
 		
 		Assert.assertTrue("coult not find updateCacheOnStartup!", json.has("updateCacheOnStartup"));
 	}
 
-	private boolean validateLatestExecution(JsonNode pum) {
+	private boolean validateLatestExecution(JsonNode pum, String url) {
 		DateTime lastUpdated = new DateTime(pum.get("lastUpdated").getTextValue());
-		DateTime yesterdayPlusOneHour= new DateTime().minusHours(23);
+		
+		DateTime yesterdayPlusOneHour;
+		if (url.contains("ags.dev.52north")) {
+			yesterdayPlusOneHour= new DateTime().minusMinutes(25);
+		}
+		else {
+			yesterdayPlusOneHour= new DateTime().minusHours(23);
+		}
 
 		return lastUpdated.isAfter(yesterdayPlusOneHour);
 	}
