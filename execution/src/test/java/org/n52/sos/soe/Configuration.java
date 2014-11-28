@@ -71,4 +71,8 @@ public final class Configuration {
 		return this.properties.getProperty("network");
 	}
 	
+	public String getTemporalFilter() {
+		return this.properties.getProperty("temporalFilter");
+	}
+	
 }

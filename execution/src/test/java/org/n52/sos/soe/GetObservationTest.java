@@ -43,6 +43,10 @@ public class GetObservationTest extends AbstractValidationTest {
 		String url = HttpUtil.resolveServiceURL().concat(String.format("GetObservation?service=SOS&version=2.0.0&request=GetObservation&observedProperty=%s&procedure=%s&f=xml",
 				config.getObservedProperty(), config.getProcedure()));
 		
+		if (config.getTemporalFilter() != null) {
+			url = url.concat("&temporalFilter=").concat(config.getTemporalFilter());
+		}
+		
 		XmlObject xo = HttpUtil.executeGet(url);
 		
 		Assert.assertTrue("Not a GetObservationResponse: "+xo.getClass(), xo instanceof GetObservationResponseDocument);
