@@ -22,6 +22,7 @@ import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -75,7 +76,9 @@ public class HttpUtil {
 		logger.info("HTTP GET: "+ target);
 		
 		long start = System.currentTimeMillis();
-		HttpResponse resp = client.execute(new HttpGet(target));
+		HttpGet get = new HttpGet(target);
+		get.setConfig(RequestConfig.custom().setConnectTimeout(1000*120).build());
+		HttpResponse resp = client.execute(get);
 		logger.info("Request latency: "+ (System.currentTimeMillis()-start));
 		
 		ObjectMapper mapper = new ObjectMapper(); 
