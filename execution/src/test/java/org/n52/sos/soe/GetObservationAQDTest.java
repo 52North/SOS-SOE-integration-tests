@@ -45,6 +45,11 @@ public class GetObservationAQDTest extends GetObservationTest {
 		String url = HttpUtil.resolveServiceURL().concat(String.format("GetObservation?service=SOS&version=2.0.0&request=GetObservation&observedProperty=%s&procedure=%s&f=xml&responseFormat=%s",
 				config.getObservedProperty(), config.getProcedure(), "http%3A%2F%2Faqd.ec.europa.eu%2Faqd%2F0.3.7c"));
 		
+		if (config.getTemporalFilter() != null) {
+			url = url.concat("&temporalFilter=").concat(config.getTemporalFilter());
+		}
+		
+		
 		XmlObject xo = HttpUtil.executeGet(url);
 		
 		Assert.assertTrue("Not a FeatureCollection: "+xo.getClass(), xo instanceof FeatureCollectionDocument);
