@@ -50,31 +50,33 @@ public class HttpUtil {
 	}
 	
 	public static XmlObject executeGetAndParseAsXml(String target) throws IOException, XmlException {
-		XmlObject xo = XmlObject.Factory.parse(executeGet(target));
+		CloseableHttpClient client = createClient();
+		XmlObject xo = XmlObject.Factory.parse(executeGet(target, client));
+		client.close();
 		return xo;
 	}
 
-	private static InputStream executeGet(String target) throws IOException {
+	private static CloseableHttpClient createClient() {
+		return HttpClientBuilder.create().build();
+	}
+
+	private static InputStream executeGet(String target, CloseableHttpClient client) throws IOException {
 		logger.info("HTTP GET: "+ target);
 		
 		long start = System.currentTimeMillis();
 		HttpGet get = new HttpGet(target);
 		get.setConfig(RequestConfig.custom().setConnectTimeout(1000*120).build());
-		try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
-			HttpResponse resp = client.execute(get);
-			logger.info("Request latency: "+ (System.currentTimeMillis()-start));
-			
-			return resp.getEntity().getContent();
-		}
-		catch (IOException e) {
-			throw e;
-		}
+		HttpResponse resp = client.execute(get);
+		logger.info("Request latency: "+ (System.currentTimeMillis()-start));
+		return resp.getEntity().getContent();
 	}
 
 	public static JsonNode executeGetAndParseAsJson(String target)
 			throws IOException, ClientProtocolException {
+		CloseableHttpClient client = createClient();
 		ObjectMapper mapper = new ObjectMapper(); 
-		JsonNode json = mapper.readTree(executeGet(target));
+		JsonNode json = mapper.readTree(executeGet(target, client));
+		client.close();
 		return json;
 	}
 
