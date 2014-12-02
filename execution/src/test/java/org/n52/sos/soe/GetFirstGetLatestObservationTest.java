@@ -39,7 +39,7 @@ public class GetFirstGetLatestObservationTest extends AbstractValidationTest {
 		String url = HttpUtil.resolveServiceURL().concat(String.format(BASE_REQUEST,
 				config.getObservedProperty(), config.getProcedure(), "first"));
 		
-		XmlObject xo = HttpUtil.executeGet(url);
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url);
 		
 		Assert.assertTrue("Not a GetObservationResponse: "+xo.getClass(), xo instanceof GetObservationResponseDocument);
 		
@@ -63,7 +63,7 @@ public class GetFirstGetLatestObservationTest extends AbstractValidationTest {
 		String url = HttpUtil.resolveServiceURL().concat(String.format(BASE_REQUEST,
 				config.getObservedProperty(), config.getProcedure(), "latest"));
 		
-		XmlObject xo = HttpUtil.executeGet(url);
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url);
 		
 		Assert.assertTrue("Not a GetObservationResponse: "+xo.getClass(), xo instanceof GetObservationResponseDocument);
 		

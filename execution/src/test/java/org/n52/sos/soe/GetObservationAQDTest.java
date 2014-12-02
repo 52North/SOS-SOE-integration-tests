@@ -50,7 +50,7 @@ public class GetObservationAQDTest extends GetObservationTest {
 		}
 		
 		
-		XmlObject xo = HttpUtil.executeGet(url);
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url);
 		
 		Assert.assertTrue("Not a FeatureCollection: "+xo.getClass(), xo instanceof FeatureCollectionDocument);
 		

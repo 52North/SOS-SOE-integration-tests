@@ -49,7 +49,7 @@ public class GetFeatureOfInterestContentTest extends AbstractValidationTest {
 	public void instanceShouldReturnSizeLimitExceedsException() throws ClientProtocolException, IllegalStateException, IOException, XmlException {
 		String url = HttpUtil.resolveServiceURL().concat("GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=&observedProperty=&procedure=&namespaces=&spatialFilter=&f=xml");
 		
-		XmlObject xo = HttpUtil.executeGet(url);
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url);
 		
 		Assert.assertTrue("Not a ExceptionReportDocument: "+xo.getClass(), xo instanceof ExceptionReportDocument);
 		
@@ -83,7 +83,7 @@ public class GetFeatureOfInterestContentTest extends AbstractValidationTest {
 			XmlException {
 		String url = HttpUtil.resolveServiceURL().concat(subUrl);
 		
-		XmlObject xo = HttpUtil.executeGet(url);
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url);
 		
 		Assert.assertTrue("Not a GetFeatureOfInterestResponseDocument: "+xo.getClass(), xo instanceof GetFeatureOfInterestResponseDocument);
 		

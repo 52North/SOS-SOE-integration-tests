@@ -19,6 +19,7 @@
 package org.n52.sos.soe;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -48,43 +49,32 @@ public class HttpUtil {
 		return url;
 	}
 	
-	public static XmlObject executeGet(String target) throws ClientProtocolException, IOException, IllegalStateException, XmlException {
-		CloseableHttpClient client = HttpClientBuilder.create().build();
-		
-		logger.info("HTTP GET: "+ target);
-		
-		long start = System.currentTimeMillis();
-		HttpResponse resp = client.execute(new HttpGet(target));
-		logger.info("Request latency: "+ (System.currentTimeMillis()-start));
-
-		XmlObject xo;
-		try {
-			xo = XmlObject.Factory.parse(resp.getEntity().getContent());
-		} catch (IOException e) {
-			throw e;
-		} finally {
-			client.close();
-		}
-		
+	public static XmlObject executeGetAndParseAsXml(String target) throws IOException, XmlException {
+		XmlObject xo = XmlObject.Factory.parse(executeGet(target));
 		return xo;
 	}
 
-	public static JsonNode executeHttpGet(String target)
-			throws IOException, ClientProtocolException {
-		CloseableHttpClient client = HttpClientBuilder.create().build();
-		
+	private static InputStream executeGet(String target) throws IOException {
 		logger.info("HTTP GET: "+ target);
 		
 		long start = System.currentTimeMillis();
 		HttpGet get = new HttpGet(target);
 		get.setConfig(RequestConfig.custom().setConnectTimeout(1000*120).build());
-		HttpResponse resp = client.execute(get);
-		logger.info("Request latency: "+ (System.currentTimeMillis()-start));
-		
+		try (CloseableHttpClient client = HttpClientBuilder.create().build();) {
+			HttpResponse resp = client.execute(get);
+			logger.info("Request latency: "+ (System.currentTimeMillis()-start));
+			
+			return resp.getEntity().getContent();
+		}
+		catch (IOException e) {
+			throw e;
+		}
+	}
+
+	public static JsonNode executeGetAndParseAsJson(String target)
+			throws IOException, ClientProtocolException {
 		ObjectMapper mapper = new ObjectMapper(); 
-		JsonNode json = mapper.readTree(resp.getEntity().getContent());
-		
-		client.close();
+		JsonNode json = mapper.readTree(executeGet(target));
 		return json;
 	}
 

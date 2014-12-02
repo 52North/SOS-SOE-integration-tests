@@ -47,7 +47,7 @@ public class GetCapabilitiesValidationTest extends AbstractValidationTest {
 	public void validateCapabilities() throws ClientProtocolException, IOException, IllegalStateException, XmlException {
 		String url = HttpUtil.resolveServiceURL();
 		
-		XmlObject xo = HttpUtil.executeGet(url.concat("GetCapabilities?service=SOS&request=GetCapabilities&f=xml"));
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url.concat("GetCapabilities?service=SOS&request=GetCapabilities&f=xml"));
 		
 		Assert.assertTrue("Not a Capabilities doc:"+ xo.getClass(), xo instanceof CapabilitiesDocument);
 		

@@ -47,7 +47,7 @@ public class GetObservationTest extends AbstractValidationTest {
 			url = url.concat("&temporalFilter=").concat(config.getTemporalFilter());
 		}
 		
-		XmlObject xo = HttpUtil.executeGet(url);
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url);
 		
 		Assert.assertTrue("Not a GetObservationResponse: "+xo.getClass(), xo instanceof GetObservationResponseDocument);
 		

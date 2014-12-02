@@ -38,7 +38,7 @@ public class GetCacheMetadataTest extends AbstractValidationTest {
 	public void validateGetCacheMetadata() throws ClientProtocolException, IllegalStateException, IOException, XmlException {
 		String url = HttpUtil.resolveServiceURL();
 		
-		JsonNode json = HttpUtil.executeHttpGet(url.concat(
+		JsonNode json = HttpUtil.executeGetAndParseAsJson(url.concat(
 				"GetCacheMetadata?service=SOS&version=2.0.0&request=GetCacheMetadata&f=json"));
 		
 		logger.info(json.toString());

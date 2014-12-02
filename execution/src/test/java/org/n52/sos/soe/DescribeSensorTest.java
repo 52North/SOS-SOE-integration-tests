@@ -43,7 +43,7 @@ public class DescribeSensorTest extends AbstractValidationTest {
 		String url = HttpUtil.resolveServiceURL();
 		
 		Configuration config = Configuration.instance();
-		XmlObject xo = HttpUtil.executeGet(url.concat(
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url.concat(
 				String.format("DescribeSensor?service=SOS&version=2.0.0&request=DescribeSensor&procedure=%s&procedureDescriptionFormat=http://www.opengis.net/sensorML/1.0.1&f=xml", config.getNetwork())));
 		
 		Assert.assertTrue("Not a DescribeSensorResponse: "+ xo.getClass(), xo instanceof DescribeSensorResponseDocument);

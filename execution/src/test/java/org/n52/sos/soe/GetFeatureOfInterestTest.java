@@ -54,7 +54,7 @@ public class GetFeatureOfInterestTest extends AbstractValidationTest {
 					HttpUtil.resolveServiceURL(),
 					String.format("GetFeatureOfInterest?service=SOS&version=2.0.0&request=GetFeatureOfInterest&featureOfInterest=%s&observedProperty=&procedure=&namespaces=&spatialFilter=&f=xml", fid));
 
-			XmlObject xo = HttpUtil.executeGet(target);
+			XmlObject xo = HttpUtil.executeGetAndParseAsXml(target);
 
 			Assert.assertTrue(
 					"Not a GetFeatureOfInterest Reponse: " + xo.getClass(),

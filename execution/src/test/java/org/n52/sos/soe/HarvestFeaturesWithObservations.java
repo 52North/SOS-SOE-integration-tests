@@ -78,7 +78,7 @@ public class HarvestFeaturesWithObservations extends AbstractValidationTest {
 			logger.info("########### Doing network: "+n);
 			
 			XmlObject xo = HttpUtil
-					.executeGet(url.concat(String
+					.executeGetAndParseAsXml(url.concat(String
 							.format("DescribeSensor?service=SOS&version=2.0.0&request=DescribeSensor&procedure=%s&procedureDescriptionFormat=http://www.opengis.net/sensorML/1.0.1&f=xml",
 									n)));
 
@@ -94,7 +94,7 @@ public class HarvestFeaturesWithObservations extends AbstractValidationTest {
 	private List<String> findNetworks() throws ClientProtocolException, IllegalStateException, IOException, XmlException {
 		String url = HttpUtil.resolveServiceURL();
 		
-		XmlObject xo = HttpUtil.executeGet(url.concat("GetCapabilities?service=SOS&request=GetCapabilities&f=xml"));
+		XmlObject xo = HttpUtil.executeGetAndParseAsXml(url.concat("GetCapabilities?service=SOS&request=GetCapabilities&f=xml"));
 		
 		CapabilitiesDocument caps = (CapabilitiesDocument) xo;
 		
@@ -163,7 +163,7 @@ public class HarvestFeaturesWithObservations extends AbstractValidationTest {
 		String url = HttpUtil.resolveServiceURL();
 
 		XmlObject xo = HttpUtil
-				.executeGet(url.concat(String
+				.executeGetAndParseAsXml(url.concat(String
 						.format("GetObservation?service=SOS&version=2.0.0&request=GetObservation&offering=&observedProperty=&procedure=&featureOfInterest=%s&namespaces=&spatialFilter=&temporalFilter=om:phenomenonTime,%s/%s&aggregationType=&responseFormat=&f=xml",
 								n,
 								"2014-02-03T14:00:00Z",
